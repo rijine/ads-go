@@ -4,6 +4,7 @@ type User struct {
 	Id string `json:"_id"`
 	// User full name
 	Name string `json:"name"`
+	Url  string `json:"url"`
 	// used for displaying + auth2 login
 	DisplayName  string `json:"displayName"`
 	ProfileImage string `json:"profileImage"`
@@ -21,16 +22,17 @@ type User struct {
 	IsCompany    string  `json:"isCompany"`
 	Rating       float32 `json:"rating"`
 	// ???
-	AvgViews int32 `json:"avgViews"`
-	// will be used for ??
-	Score float32 `json:"score"`
+	AvgViews  int32 `json:"avgViews"`
+	Customers int32 `json:"customers"`
+	// will be used for ML historical
+	// Score float32 `json:"score"`
 	// Level will be used for trusted customer,
 	//their post will go live without verification
 	Level string `json:"level"`
 }
 
 type Portfolio struct {
-	Name string `json:"name"`
+	Title string `json:"title"`
 	// type = [websiteUrl, videoUrl, images]
 	Type   string  `json:"type"`
 	Url    string  `json:"url"`
