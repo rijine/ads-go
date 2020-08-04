@@ -1,4 +1,4 @@
-package model
+package post
 
 type Post struct {
 	Id          string   `json:"id"`
@@ -27,5 +27,9 @@ type Post struct {
 	State string `json:"state"`
 }
 
-type VideoPost struct {
+type Image struct {
+	Title       string `json:"title"`
+	Url         string `json:"url"`
+	ThumbUrl    string `json:"thumbUrl"`
+	Description string `json:"description"`
 }

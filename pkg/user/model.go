@@ -1,4 +1,6 @@
-package model
+package user
+
+import "github.com/rijine/ads-api/pkg/post"
 
 type User struct {
 	Id string `json:"_id"`
@@ -22,21 +24,23 @@ type User struct {
 	IsCompany    string  `json:"isCompany"`
 	Rating       float32 `json:"rating"`
 	// ???
-	AvgViews  int32 `json:"avgViews"`
-	Customers int32 `json:"customers"`
+	Frequency string `json:"frequency"`
+	AvgViews  int32  `json:"avgViews"`
+	Customers int32  `json:"customers"`
 	// will be used for ML historical
 	// Score float32 `json:"score"`
 	// Level will be used for trusted customer,
 	//their post will go live without verification
-	Level string `json:"level"`
+	Level string   `json:"level"`
+	Posts []string `json:"posts"`
 }
 
 type Portfolio struct {
 	Title string `json:"title"`
 	// type = [websiteUrl, videoUrl, images]
-	Type   string  `json:"type"`
-	Url    string  `json:"url"`
-	Images []Image `json:"images"` // not sure
+	Type   string       `json:"type"`
+	Url    string       `json:"url"`
+	Images []post.Image `json:"images"` // not sure
 }
 
 type PaymentPlan struct {
@@ -44,4 +48,15 @@ type PaymentPlan struct {
 	UpdatedOn int32   `json:"updatedOn"`
 	Expiry    int32   `json:"expiry"`
 	Pay       float32 `json:"pay"`
+	Posts     int32   `json:"posts"`
+}
+
+type Address struct {
+	HouseNo  string `json:"houseNo"`
+	Street   string `json:"street"`
+	City     string `json:"city"`
+	District string `json:"district"`
+	State    string `json:"state"`
+	Country  string `json:"country"`
+	PinCode  string `json:"pinCode"`
 }

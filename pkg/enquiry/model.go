@@ -1,4 +1,4 @@
-package model
+package enquiry
 
 type Message struct {
 	Id         string `json:"id"`
@@ -8,7 +8,7 @@ type Message struct {
 	Content    string `json:"content"`
 	MessagedAt string `json:"messageAt"`
 
-	IsExternal string `json:"isExternal"`
+	IsExternal bool   `json:"isExternal"`
 	SenderId   string `json:"senderId"`
 	Name       string `json:"Name"`
 	Phone      string `json:"phone"`
