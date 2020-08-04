@@ -7,8 +7,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/rijine/ads-api/graph/generated"
-	"github.com/rijine/ads-api/graph/model"
+	"github.com/rijine/ads-api/pkg/graph/generated"
+	"github.com/rijine/ads-api/pkg/graph/model"
 )
 
 func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
