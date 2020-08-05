@@ -5,22 +5,81 @@
 type Post {
     id: ID!
     title: String!
-    url: String
-    description: String
-    user(userId: String): BasicUser!
+    url: String!
+    description: String!
+    user: BasicUser!
+    images: [Image]!
+    price: Float
+    tags: [String]!
+    platform: String!
+    language: String!
+    expectedViews: String!
+    duration: Int!
+
+    status: String!
+    isActive: Boolean!
+    availableFrom: Int!
+    publishingDate: Int!
+    createdAt: Int!
+
+    city: String!
+    state: String!
+    country: String!
 }
 
 type User {
     id: ID!
     name: String!
-    email: String!
-    history(userId: String): [History]!
-    posts(userId: String): [Post!]!
+    displayName: String
+    url: String
+
+    profileImage: Image
+    profileImageUrl: String
+    description: String
+    address: Address
+    phone: String
+
+    email: String
+    username: String
+    password: String
+    verificationKey: String
+    verificationExpiry: Int
+
+    registeredOn: Int
+    isCompany: Boolean
+    rating: Int
+
+    frequency: Int
+    avgViews: Int
+    customers: String
+
+    level: Int
+    posts: [Post]
+    history: [History]
+}
+
+type Portfolio {
+    title: String!
+    platform: String!
+    url: String!
+    images: [Image]!
+}
+
+type Address {
+    houseNo: String!
+    street: String!
+    city: String!
+    district: String!
+    state: String!
+    country: String!
+    pinCode: String!
 }
 
 # User Info for post
 type BasicUser {
     id: ID!
+    displayName: String!
+    rating: Float!
 }
 
 type History {
@@ -28,9 +87,18 @@ type History {
     title: String!
 }
 
+type Image {
+    title: String!
+    url: String!
+    thumbUrl: String!
+    description: String!
+}
+
 type AuthUser {
     email: String!
+    displayName: String!
     token: String!
+    expiry: Int!
     # roles: [String]
 }
 
@@ -46,7 +114,7 @@ type Query {
 input NewUser {
     name: String!
     email: String!
-    phone: String!
+    password: String!
 }
 
 input Credential {

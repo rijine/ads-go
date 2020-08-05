@@ -8,11 +8,12 @@ type User struct {
 	Name string `json:"name"`
 	Url  string `json:"url"`
 	// used for displaying + auth2 login
-	DisplayName  string `json:"displayName"`
-	ProfileImage string `json:"profileImage"`
-	Description  string `json:"description"`
-	Address      `json:"address"`
-	Phone        string `json:"phone"`
+	DisplayName     string     `json:"displayName"`
+	ProfileImageUrl string     `json:"profileImageUrl"`
+	ProfileImage    post.Image `json:"profileImage"`
+	Description     string     `json:"description"`
+	Address         `json:"address"`
+	Phone           string `json:"phone"`
 
 	Email              string `json:"email"`
 	Username           string `json:"username"`
@@ -23,24 +24,24 @@ type User struct {
 	RegisteredOn string  `json:"registeredOn"`
 	IsCompany    string  `json:"isCompany"`
 	Rating       float32 `json:"rating"`
-	// ???
-	Frequency string `json:"frequency"`
-	AvgViews  int32  `json:"avgViews"`
-	Customers int32  `json:"customers"`
+	// freq of posting videos
+	Frequency   string `json:"frequency"`
+	AvgViews    int32  `json:"avgViews"`
+	Subscribers string `json:"subscribers"`
 	// will be used for ML historical
 	// Score float32 `json:"score"`
 	// Level will be used for trusted customer,
 	//their post will go live without verification
-	Level string   `json:"level"`
+	Level int      `json:"level"`
 	Posts []string `json:"posts"`
 }
 
 type Portfolio struct {
 	Title string `json:"title"`
-	// type = [websiteUrl, videoUrl, images]
-	Type   string       `json:"type"`
-	Url    string       `json:"url"`
-	Images []post.Image `json:"images"` // not sure
+	// platform = [youtube, facebook, insta]
+	Platform string       `json:"platform"`
+	Url      string       `json:"url"`
+	Images   []post.Image `json:"images"` // not sure
 }
 
 type PaymentPlan struct {

@@ -23,8 +23,9 @@ type Post struct {
 	PublishingDate int32 `json:"publishingDate"`
 	CreatedAt      int32 `json:"createdAt"`
 
-	City  string `json:"city"`
-	State string `json:"state"`
+	City    string `json:"city"`
+	State   string `json:"state"`
+	Country string `json:"country"`
 }
 
 type Image struct {
