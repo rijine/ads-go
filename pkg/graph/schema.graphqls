@@ -37,7 +37,7 @@ type AuthUser {
 type Query {
     post(id: String): Post!
     postByUrl(url: String): Post!
-    posts(filter: PostFilter, order: Order): [Post!]!
+    posts(filter: PostFilter, order: SortOrder): [Post!]!
     user(id: String): User!
     userByUrl(url: String): User!
     login(credentials: Credential): AuthUser!
@@ -62,9 +62,9 @@ input PostFilter {
     userId: String
 }
 
-input Order {
+input SortOrder {
     sortBy: String
-    sortOrder: Boolean
+    order: Boolean
 }
 
 input NewPost {
@@ -79,8 +79,8 @@ input ChangePassword {
 }
 
 type Mutation {
-    addPost(post: NewPost!): Post!
-    editPost(post: NewPost!): Post!
+    addPost(post: NewPost): Post!
+    editPost(post: NewPost): Post!
     register(user: NewUser): Boolean!
     forgotPassword(email: String): Boolean!
     changePassword(password: ChangePassword): Boolean!
