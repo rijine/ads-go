@@ -2,27 +2,86 @@
 #
 # https://gqlgen.com/getting-started/
 
-type Todo {
-  id: ID!
-  text: String!
-  done: Boolean!
-  user: User!
+type Post {
+    id: ID!
+    title: String!
+    url: String
+    description: String
+    user(userId: String): BasicUser!
 }
 
 type User {
-  id: ID!
-  name: String!
+    id: ID!
+    name: String!
+    email: String!
+    history(userId: String): [History]!
+    posts(userId: String): [Post!]!
+}
+
+# User Info for post
+type BasicUser {
+    id: ID!
+}
+
+type History {
+    id: ID!
+    title: String!
+}
+
+type AuthUser {
+    email: String!
+    token: String!
+    # roles: [String]
 }
 
 type Query {
-  todos: [Todo!]!
+    post(id: String): Post!
+    postByUrl(url: String): Post!
+    posts(filter: PostFilter, order: Order): [Post!]!
+    user(id: String): User!
+    userByUrl(url: String): User!
+    login(credentials: Credential): AuthUser!
 }
 
-input NewTodo {
-  text: String!
-  userId: String!
+input NewUser {
+    name: String!
+    email: String!
+    phone: String!
+}
+
+input Credential {
+    username: String!
+    password: String!
+}
+
+input PostFilter {
+    page: Int
+    offset: Int
+    keyword: String
+    tags: [String]
+    userId: String
+}
+
+input Order {
+    sortBy: String
+    sortOrder: Boolean
+}
+
+input NewPost {
+    text: String!
+    userId: String!
+}
+
+input ChangePassword {
+    oldPassword: String!
+    password: String!
+    confirmPassword: String!
 }
 
 type Mutation {
-  createTodo(input: NewTodo!): Todo!
+    addPost(post: NewPost!): Post!
+    editPost(post: NewPost!): Post!
+    register(user: NewUser): Boolean!
+    forgotPassword(email: String): Boolean!
+    changePassword(password: ChangePassword): Boolean!
 }
