@@ -2,6 +2,8 @@
 #
 # https://gqlgen.com/getting-started/
 
+scalar Upload
+
 type Post {
     id: ID!
     title: String!
@@ -49,7 +51,7 @@ type User {
     isCompany: Boolean
     rating: Int
 
-    frequency: Int
+    frequency: String
     avgViews: Int
     customers: String
 
@@ -102,6 +104,38 @@ type AuthUser {
     # roles: [String]
 }
 
+type Enquiry {
+    id: ID!
+    postId: String!
+    userId: String!
+    name: String
+    email: String
+    phone: String
+    subject: String
+    content: String
+    messagedAt: Int
+    isRead: Boolean
+}
+
+type Chat {
+    id: ID!
+    userId: String!
+    receiverId: String!
+    messages: [Message]!
+}
+
+type Message {
+    content: String
+    image: CImage
+    isRead: Boolean
+    messagedAt: Int
+}
+
+type CImage {
+    url: String
+    thumbUrl: String
+}
+
 type Query {
     post(id: String): Post!
     postByUrl(url: String): Post!
@@ -136,8 +170,29 @@ input SortOrder {
 }
 
 input NewPost {
-    text: String!
-    userId: String!
+    title: String!
+    description: String!
+    images: [PostImage]
+    price: Float
+    tags: [String]
+
+    platforms: [String]
+    language: String
+    expectedViews: Int
+    duration: Int
+    availableFrom: Int
+    publishingDate: Int
+    createdAt: Int
+
+    country: String
+    state: String
+    city: String
+}
+
+input PostImage {
+    title: String
+    image: Upload
+    description: String
 }
 
 input ChangePassword {
@@ -146,10 +201,27 @@ input ChangePassword {
     confirmPassword: String!
 }
 
+input NewEnquiry {
+    postId: String!
+    name: String
+    email: String
+    phone: String
+    subject: String
+    content: String
+}
+
+input NewMessage {
+    receiverId: String
+    content:  String
+    image: Upload
+}
+
 type Mutation {
     addPost(post: NewPost): Post!
     editPost(post: NewPost): Post!
-    register(user: NewUser): Boolean!
     forgotPassword(email: String): Boolean!
     changePassword(password: ChangePassword): Boolean!
+
+    # No auth
+    register(user: NewUser): Boolean!
 }

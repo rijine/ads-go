@@ -11,17 +11,17 @@ type Post struct {
 	Tags        []string `json:"tags"`
 
 	// youtube, facebook, instagram
-	Platform      string `json:"platform"`
-	Language      string `json:"language"`
-	ExpectedViews int32  `json:"expectedViews"`
-	Duration      int    `json:"duration"`
+	Platforms     []string `json:"platforms"`
+	Language      string   `json:"language"`
+	ExpectedViews int64    `json:"expectedViews"`
+	Duration      int      `json:"duration"`
 
 	Status string `json:"status"`
 	// Can be remove by adding one more status type
 	IsActive       bool  `json:"isActive"`
-	AvailableFrom  int32 `json:"availableFrom"`
-	PublishingDate int32 `json:"publishingDate"`
-	CreatedAt      int32 `json:"createdAt"`
+	AvailableFrom  int64 `json:"availableFrom"`
+	PublishingDate int64 `json:"publishingDate"`
+	CreatedAt      int64 `json:"createdAt"`
 
 	City    string `json:"city"`
 	State   string `json:"state"`

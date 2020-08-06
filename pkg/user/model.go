@@ -21,12 +21,12 @@ type User struct {
 	VerificationKey    string `json:"verificationKey"`
 	VerificationExpiry string `json:"verificationExpiry"`
 
-	RegisteredOn string  `json:"registeredOn"`
+	RegisteredOn int64   `json:"registeredOn"`
 	IsCompany    string  `json:"isCompany"`
 	Rating       float32 `json:"rating"`
 	// freq of posting videos
 	Frequency   string `json:"frequency"`
-	AvgViews    int32  `json:"avgViews"`
+	AvgViews    int64  `json:"avgViews"`
 	Subscribers string `json:"subscribers"`
 	// will be used for ML historical
 	// Score float32 `json:"score"`
@@ -47,7 +47,7 @@ type Portfolio struct {
 type PaymentPlan struct {
 	Plan      string  `json:"plan"`
 	UpdatedOn int32   `json:"updatedOn"`
-	Expiry    int32   `json:"expiry"`
+	Expiry    int64   `json:"expiry"`
 	Pay       float32 `json:"pay"`
 	Posts     int32   `json:"posts"`
 }
