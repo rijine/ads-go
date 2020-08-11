@@ -17,6 +17,7 @@ type Post {
     language: String!
     expectedViews: String!
     duration: Int!
+    sponsors: String
 
     status: String!
     isActive: Boolean!
@@ -126,23 +127,26 @@ type Chat {
 
 type Message {
     content: String
-    image: CImage
-    isRead: Boolean
-    messagedAt: Int
+    image: MessageImage
+    isRead: Boolean!
+    messagedAt: Int!
 }
 
-type CImage {
+type MessageImage {
     url: String
     thumbUrl: String
 }
 
 type Query {
-    post(id: String): Post!
-    postByUrl(url: String): Post!
-    posts(filter: PostFilter, order: SortOrder): [Post!]!
+    login(credentials: Credential): AuthUser!
     user(id: String): User!
     userByUrl(url: String): User!
-    login(credentials: Credential): AuthUser!
+    post(id: String): Post!
+    postByUrl(url: String): Post!
+    posts(filters: PostFilter): [Post!]!
+
+    #auth
+
 }
 
 input NewUser {
@@ -156,10 +160,20 @@ input Credential {
     password: String!
 }
 
+input Paging {
+    page: Int!
+    offset: Int!
+}
+
 input PostFilter {
-    page: Int
-    offset: Int
+    paging: Paging
+    filter: PostFilter
+    order: SortOrder
+}
+
+input SearchFilter {
     keyword: String
+    searchOn: String
     tags: [String]
     userId: String
 }
@@ -221,6 +235,7 @@ type Mutation {
     editPost(post: NewPost): Post!
     forgotPassword(email: String): Boolean!
     changePassword(password: ChangePassword): Boolean!
+    confirmEmail(key: String): AuthUser
 
     # No auth
     register(user: NewUser): Boolean!

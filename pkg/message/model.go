@@ -5,7 +5,7 @@ import "github.com/99designs/gqlgen/graphql"
 type Enquiry struct {
 	Id     string `json:"id"`
 	PostId string `json:"postId"`
-	// populate
+	// populate userid
 	UserId     string `json:"userId"`
 	Name       string `json:"name"`
 	Email      string `json:"email"`

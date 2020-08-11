@@ -15,6 +15,8 @@ type Post struct {
 	Language      string   `json:"language"`
 	ExpectedViews int64    `json:"expectedViews"`
 	Duration      int      `json:"duration"`
+	// Video can have multiple sponsors
+	Sponsors string `json:"sponsors"`
 
 	Status string `json:"status"`
 	// Can be remove by adding one more status type
@@ -23,9 +25,9 @@ type Post struct {
 	PublishingDate int64 `json:"publishingDate"`
 	CreatedAt      int64 `json:"createdAt"`
 
-	City    string `json:"city"`
-	State   string `json:"state"`
 	Country string `json:"country"`
+	State   string `json:"state"`
+	City    string `json:"city"`
 }
 
 type Image struct {
