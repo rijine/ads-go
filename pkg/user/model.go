@@ -1,12 +1,16 @@
 package user
 
-import "github.com/rijine/ads-api/pkg/post"
+import (
+	"github.com/rijine/ads-api/pkg/post"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
 
 type User struct {
-	Id string `json:"_id"`
+	Id primitive.ObjectID `json:"_id" bson:"_id"`
 	// User full name
-	Name string `json:"name"`
-	Url  string `json:"url"`
+	FirstName string `json:"firstName"`
+	LastName  string `json:"lastName"`
+	Url       string `json:"url"`
 	// used for displaying + auth2 login
 	DisplayName     string     `json:"displayName"`
 	ProfileImageUrl string     `json:"profileImageUrl"`

@@ -32,33 +32,34 @@ type Post {
 
 type User {
     id: ID!
-    name: String!
-    displayName: String
-    url: String
+    firstName: String!
+    lastName: String!
+    displayName: String!
+    url: String!
 
-    profileImage: Image
-    profileImageUrl: String
-    description: String
-    address: Address
-    phone: String
+    profileImage: Image!
+    profileImageUrl: String!
+    description: String!
+    address: Address!
+    phone: String!
 
-    email: String
-    username: String
-    password: String
-    verificationKey: String
-    verificationExpiry: Int
+    email: String!
+    username: String!
+    password: String!
+    verificationKey: String!
+    verificationExpiry: Int!
 
-    registeredOn: Int
-    isCompany: Boolean
-    rating: Int
+    registeredOn: Int!
+    isCompany: Boolean!
+    rating: Int!
 
-    frequency: String
-    avgViews: Int
-    customers: String
+    frequency: String!
+    avgViews: Int!
+    customers: String!
 
-    level: Int
-    posts: [Post]
-    history: [History]
+    level: Int!
+    posts: [Post]!
+    history: [History]!
 }
 
 type Portfolio {
@@ -109,13 +110,13 @@ type Enquiry {
     id: ID!
     postId: String!
     userId: String!
-    name: String
-    email: String
-    phone: String
-    subject: String
-    content: String
-    messagedAt: Int
-    isRead: Boolean
+    name: String!
+    email: String!
+    phone: String!
+    subject: String!
+    content: String!
+    messagedAt: Int!
+    isRead: Boolean!
 }
 
 type Chat {
@@ -140,6 +141,7 @@ type MessageImage {
 type Query {
     login(credentials: Credential): AuthUser!
     user(id: String): User!
+    users: [User] # TODO: remove
     userByUrl(url: String): User!
     post(id: String): Post!
     postByUrl(url: String): Post!
@@ -172,31 +174,31 @@ input PostFilter {
 }
 
 input SearchFilter {
-    keyword: String
-    searchOn: String
-    tags: [String]
-    userId: String
+    keyword: String!
+    searchOn: String!
+    tags: [String]!
+    userId: String!
 }
 
 input SortOrder {
-    sortBy: String
-    order: Boolean
+    sortBy: String!
+    order: Boolean!
 }
 
 input NewPost {
     title: String!
     description: String!
-    images: [PostImage]
-    price: Float
-    tags: [String]
+    images: [PostImage]!
+    price: Float!
+    tags: [String]!
 
-    platforms: [String]
-    language: String
-    expectedViews: Int
-    duration: Int
-    availableFrom: Int
-    publishingDate: Int
-    createdAt: Int
+    platforms: [String]!
+    language: String!
+    expectedViews: Int!
+    duration: Int!
+    availableFrom: Int!
+    publishingDate: Int!
+    createdAt: Int!
 
     country: String
     state: String
@@ -204,9 +206,9 @@ input NewPost {
 }
 
 input PostImage {
-    title: String
-    image: Upload
-    description: String
+    title: String!
+    image: Upload!
+    description: String!
 }
 
 input ChangePassword {
@@ -217,11 +219,11 @@ input ChangePassword {
 
 input NewEnquiry {
     postId: String!
-    name: String
-    email: String
-    phone: String
-    subject: String
-    content: String
+    name: String!
+    email: String!
+    phone: String!
+    subject: String!
+    content: String!
 }
 
 input NewMessage {

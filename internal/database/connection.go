@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	timeout             = 2
+	timeout             = 5
 	ErrDatabaseConn     = "Database connection failed"
 	errNilClientMsg     = "Client must not be nil"
 	errEmptyDbNameMsg   = "Database name must not be empty"
@@ -22,22 +22,26 @@ type mongodb struct {
 
 var Mongo mongodb
 
-func getContext() context.Context {
+func NewContext() context.Context {
 	ctx, cancel := context.WithTimeout(context.Background(), timeout*time.Second)
 	defer cancel()
 	return ctx
 }
 
+func (m *mongodb) Collection(name string) *mongo.Collection {
+	return m.Database.Collection(name)
+}
+
 func Connect() error {
 	dbOptions := options.Client().ApplyURI("mongodb://localhost:27017")
-	client, err := mongo.Connect(getContext(), dbOptions)
+	client, err := mongo.Connect(NewContext(), dbOptions)
 	if err != nil {
 		return err
 	}
 
 	Mongo = mongodb{
 		Client:   client,
-		Database: client.Database("ads"),
+		Database: client.Database("v-ads"),
 	}
 
 	return nil
