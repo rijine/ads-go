@@ -1,4 +1,4 @@
-package counter
+package counters
 
 type Counter struct {
 	Id       string `json:"id"`

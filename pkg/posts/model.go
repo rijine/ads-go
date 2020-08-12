@@ -1,4 +1,4 @@
-package post
+package posts
 
 import "go.mongodb.org/mongo-driver/bson/primitive"
 

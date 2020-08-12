@@ -1,7 +1,7 @@
-package user
+package users
 
 import (
-	"github.com/rijine/ads-api/pkg/post"
+	"github.com/rijine/ads-api/pkg/posts"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
@@ -12,10 +12,10 @@ type User struct {
 	LastName  string `json:"lastName"`
 	Url       string `json:"url"`
 	// used for displaying + auth2 login
-	DisplayName     string     `json:"displayName"`
-	ProfileImageUrl string     `json:"profileImageUrl"`
-	ProfileImage    post.Image `json:"profileImage"`
-	Description     string     `json:"description"`
+	DisplayName     string      `json:"displayName"`
+	ProfileImageUrl string      `json:"profileImageUrl"`
+	ProfileImage    posts.Image `json:"profileImage"`
+	Description     string      `json:"description"`
 	Address         `json:"address"`
 	Phone           string `json:"phone"`
 
@@ -43,9 +43,9 @@ type User struct {
 type Portfolio struct {
 	Title string `json:"title"`
 	// platform = [youtube, facebook, insta]
-	Platform string       `json:"platform"`
-	Url      string       `json:"url"`
-	Images   []post.Image `json:"images"` // not sure
+	Platform string        `json:"platform"`
+	Url      string        `json:"url"`
+	Images   []posts.Image `json:"images"` // not sure
 }
 
 type PaymentPlan struct {
