@@ -6,7 +6,7 @@ import (
 )
 
 type User struct {
-	Id primitive.ObjectID `json:"_id" bson:"_id"`
+	Id primitive.ObjectID `json:"id" bson:"_id"`
 	// User full name
 	FirstName string `json:"firstName"`
 	LastName  string `json:"lastName"`
@@ -53,7 +53,7 @@ type PaymentPlan struct {
 	UpdatedOn int32   `json:"updatedOn"`
 	Expiry    int64   `json:"expiry"`
 	Pay       float32 `json:"pay"`
-	Posts     int32   `json:"posts"`
+	NoOfPosts int32   `json:"noOfPosts"`
 }
 
 type Address struct {

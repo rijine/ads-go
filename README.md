@@ -2,4 +2,4 @@
 
 ## Graphql
 ### Schema Changes
-run ```gqlgen generate```
+run ```go run cmd/gen/bson.go```

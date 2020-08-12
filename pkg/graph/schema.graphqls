@@ -3,6 +3,7 @@
 # https://gqlgen.com/getting-started/
 
 scalar Upload
+#scalar ObjectID
 
 type Post {
     id: ID!

@@ -1,14 +1,16 @@
 package post
 
+import "go.mongodb.org/mongo-driver/bson/primitive"
+
 type Post struct {
-	Id          string   `json:"id"`
-	UserId      string   `json:"userId"`
-	Url         string   `json:"url"`
-	Title       string   `json:"title"`
-	Description string   `json:"description"`
-	Images      []Image  `json:"images"`
-	Price       float32  `json:"price"`
-	Tags        []string `json:"tags"`
+	Id          primitive.ObjectID `json:"id" bson:"_id"`
+	UserId      string             `json:"userId"`
+	Url         string             `json:"url"`
+	Title       string             `json:"title"`
+	Description string             `json:"description"`
+	Images      []Image            `json:"images"`
+	Price       float32            `json:"price"`
+	Tags        []string           `json:"tags"`
 
 	// youtube, facebook, instagram
 	Platforms     []string `json:"platforms"`
