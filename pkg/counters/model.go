@@ -1,6 +1,6 @@
 package counters
 
 type Counter struct {
-	Id       string `json:"id"`
-	Sequence int64  `json:"sequence"`
+	CountOf string `json:"countOf"`
+	Count   int64  `json:"count"`
 }

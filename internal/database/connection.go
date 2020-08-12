@@ -20,7 +20,7 @@ type mongodb struct {
 	Database *mongo.Database
 }
 
-var Mongo mongodb
+var db mongodb
 
 func NewContext() context.Context {
 	ctx, cancel := context.WithTimeout(context.Background(), timeout*time.Second)
@@ -28,8 +28,8 @@ func NewContext() context.Context {
 	return ctx
 }
 
-func (m *mongodb) Collection(name string) *mongo.Collection {
-	return m.Database.Collection(name)
+func Collection(name string) *mongo.Collection {
+	return db.Database.Collection(name)
 }
 
 func Connect() error {
@@ -39,7 +39,7 @@ func Connect() error {
 		return err
 	}
 
-	Mongo = mongodb{
+	db = mongodb{
 		Client:   client,
 		Database: client.Database("v-ads"),
 	}

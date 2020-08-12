@@ -1,4 +1,4 @@
-package users
+package posts
 
 import (
 	"context"
@@ -11,8 +11,8 @@ import (
 )
 
 type Service interface {
-	Register(userForm *model.NewUser) (bool, error)
-	Users() ([]*model.User, error)
+	// Register(userForm *model.NewUser) (bool, error)
+	Posts() ([]*model.Post, error)
 }
 
 type service struct{}
@@ -22,7 +22,7 @@ func NewUserService() Service {
 	return &service{}
 }
 
-func (s *service) Users() ([]*model.User, error) {
+func (s *service) Posts() ([]*model.Post, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 	cur, err := database.Collection("users").Find(ctx, bson.M{})
@@ -45,10 +45,10 @@ func (s *service) Users() ([]*model.User, error) {
 		}
 	}*/
 
-	return ss, err
+	return nil, err
 }
 
-func (s *service) Register(userForm *model.NewUser) (bool, error) {
+/*func (s *service) Register(userForm *model.NewUser) (bool, error) {
 	usr := User{
 		Username: userForm.Email,
 		Email:    userForm.Email,
@@ -67,3 +67,4 @@ func (s *service) Register(userForm *model.NewUser) (bool, error) {
 	fmt.Print(res)
 	return true, nil
 }
+*/

@@ -5,17 +5,21 @@ import (
 	"github.com/rijine/ads-api/pkg/graph/model"
 )
 
+const (
+	COLLECTION = "users"
+)
+
 type Repository interface {
 	Login(credentials *model.Credential) model.AuthUser
 }
 
-type repo struct{}
+type repository struct{}
 
 func NewUserRepository() Repository {
 	fmt.Print("Post Repo")
-	return &repo{}
+	return &repository{}
 }
 
-func (r *repo) Login(credentials *model.Credential) model.AuthUser {
+func (r *repository) Login(credentials *model.Credential) model.AuthUser {
 	return model.AuthUser{}
 }
