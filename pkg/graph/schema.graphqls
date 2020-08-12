@@ -6,10 +6,10 @@ scalar Upload
 
 type Post {
     id: ID!
+    userId: String!
     title: String!
     url: String!
     description: String!
-    user: BasicUser!
     images: [Image]!
     price: Float
     tags: [String]!
@@ -28,6 +28,9 @@ type Post {
     city: String!
     state: String!
     country: String!
+
+    # customer resolvers
+    user: BasicUser!
 }
 
 type User {
@@ -56,10 +59,11 @@ type User {
     frequency: String!
     avgViews: Int!
     customers: String!
-
     level: Int!
-    posts: [Post]!
-    history: [History]!
+
+    # customer resolvers
+    posts: [Post]
+    history: [History]
 }
 
 type Portfolio {

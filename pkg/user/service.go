@@ -32,7 +32,10 @@ func (s *service) Users() ([]*model.User, error) {
 	}
 
 	var ss = make([]*model.User, 0)
-	for cur.Next(context.Background()) {
+	// var ss1 = make([]*User, 0)
+	err = cur.All(context.TODO(), &ss)
+	// fmt.Print(ss1)
+	/*for cur.Next(context.Background()) {
 		var s model.User
 		var d User
 		if err := cur.Decode(&s); err == nil {
@@ -40,7 +43,7 @@ func (s *service) Users() ([]*model.User, error) {
 			// ss = append(ss, s)
 			fmt.Print(s, d)
 		}
-	}
+	}*/
 
 	return ss, err
 }

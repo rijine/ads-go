@@ -23,10 +23,10 @@ type User struct {
 	Username           string `json:"username"`
 	Password           string `json:"password"`
 	VerificationKey    string `json:"verificationKey"`
-	VerificationExpiry string `json:"verificationExpiry"`
+	VerificationExpiry int64  `json:"verificationExpiry"`
 
 	RegisteredOn int64   `json:"registeredOn"`
-	IsCompany    string  `json:"isCompany"`
+	IsCompany    bool    `json:"isCompany"`
 	Rating       float32 `json:"rating"`
 	// freq of posting videos
 	Frequency   string `json:"frequency"`
