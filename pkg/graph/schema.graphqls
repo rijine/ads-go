@@ -5,6 +5,8 @@
 scalar Upload
 #scalar ObjectID
 
+directive @auth on QUERY | MUTATION | FIELD_DEFINITION
+
 type Post {
     id: ID!
     userId: String!
@@ -146,7 +148,7 @@ type MessageImage {
 type Query {
     login(credentials: Credential): AuthUser!
     user(id: String): User!
-    users: [User] # TODO: remove
+    users: [User] @auth # TODO: remove
     userByUrl(url: String): User!
     post(id: String): Post!
     postByUrl(url: String): Post!

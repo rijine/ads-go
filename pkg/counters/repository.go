@@ -13,7 +13,7 @@ const (
 )
 
 type Repository interface {
-	Count(of string) (int64, error)
+	Count(countOf string) (int64, error)
 }
 
 type repository struct{}
