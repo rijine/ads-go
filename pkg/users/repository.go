@@ -16,7 +16,7 @@ type Repository interface {
 type repository struct{}
 
 func NewUserRepository() Repository {
-	fmt.Print("Post Repo")
+	fmt.Print("NewUserRepository")
 	return &repository{}
 }
 

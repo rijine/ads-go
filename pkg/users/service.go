@@ -6,6 +6,7 @@ import (
 	"github.com/rijine/ads-api/internal/database"
 	"github.com/rijine/ads-api/pkg/graph/model"
 	"go.mongodb.org/mongo-driver/bson"
+	"golang.org/x/crypto/bcrypt"
 	"log"
 	"time"
 )
@@ -49,10 +50,13 @@ func (s *service) Users() ([]*model.User, error) {
 }
 
 func (s *service) Register(userForm *model.NewUser) (bool, error) {
+
+	bs, _ := bcrypt.GenerateFromPassword([]byte(userForm.Password), bcrypt.DefaultCost)
+
 	usr := User{
 		Username: userForm.Email,
 		Email:    userForm.Email,
-		Password: userForm.Password,
+		Password: string(bs),
 	}
 
 	// Repo layer
