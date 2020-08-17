@@ -18,7 +18,9 @@ func main() {
 	config := generated.Config{
 		Resolvers: &resolver.Resolver{},
 		Directives: generated.DirectiveRoot{
-			Auth: directive.Auth,
+			Auth:      directive.Auth,
+			Maxlength: directive.MaxLength,
+			Demo:      directive.Demo,
 		},
 	}
 

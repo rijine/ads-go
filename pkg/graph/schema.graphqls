@@ -3,9 +3,18 @@
 # https://gqlgen.com/getting-started/
 
 scalar Upload
-#scalar ObjectID
+scalar ObjectID
 
+""" Authorized users """
 directive @auth on QUERY | MUTATION | FIELD_DEFINITION
+
+directive @demo on INPUT_FIELD_DEFINITION
+
+""" String length limit """
+directive @maxlength(
+    """ Maximum allowed length """
+    max: Int!
+) on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
 
 type Post {
     id: ID!
@@ -51,9 +60,9 @@ type User {
 
     email: String!
     username: String!
-    password: String!
-    verificationKey: String!
-    verificationExpiry: Int!
+    password: String! #TODO remove
+    verificationKey: String! #TODO remove
+    verificationExpiry: Int! #TODO remove
 
     registeredOn: Int!
     isCompany: Boolean!
@@ -62,7 +71,7 @@ type User {
     frequency: String!
     avgViews: Int!
     customers: String!
-    level: Int!
+    level: Int! #TODO remove
 
     # customer resolvers
     posts: [Post]
@@ -159,7 +168,8 @@ type Query {
 }
 
 input NewUser {
-    name: String!
+    firstName: String! @maxlength(max: 30) @demo
+    lastName: String! @maxlength(max: 30)
     email: String!
     password: String!
 }
@@ -170,8 +180,8 @@ input Credential {
 }
 
 input Paging {
-    page: Int!
     offset: Int!
+    limit: Int!
 }
 
 input PostFilter {

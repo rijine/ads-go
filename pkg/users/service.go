@@ -54,9 +54,11 @@ func (s *service) Register(userForm *model.NewUser) (bool, error) {
 	bs, _ := bcrypt.GenerateFromPassword([]byte(userForm.Password), bcrypt.DefaultCost)
 
 	usr := User{
-		Username: userForm.Email,
-		Email:    userForm.Email,
-		Password: string(bs),
+		FirstName: userForm.FirstName,
+		LastName:  userForm.LastName,
+		Username:  userForm.Email,
+		Email:     userForm.Email,
+		Password:  string(bs),
 	}
 
 	// Repo layer

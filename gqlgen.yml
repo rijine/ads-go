@@ -43,10 +43,12 @@ autobind:
 # modelgen, the others will be allowed when binding to fields. Configure them to
 # your liking
 models:
-   #Scalars
-  #ObjectID:
-   # model: github.com/rijine/ads-api/pkg/graph/scalar.ObjectID
+  #Scalars
+#  ObjectID:
+#    model: github.com/rijine/ads-api/pkg/graph/scalar.ObjectID
   User:
+#    model:
+#      - github.com/rijine/ads-api/pkg/users.User
     fields:
       posts:
         resolver: true
@@ -54,7 +56,7 @@ models:
         resolver: true
   ID:
     model:
-#      - github.com/rijine/ads-api/pkg/graph/scalar.ObjectID
+      #      - github.com/rijine/ads-api/pkg/graph/scalar.ObjectID
       - github.com/99designs/gqlgen/graphql.ID
       - github.com/99designs/gqlgen/graphql.Int
       - github.com/99designs/gqlgen/graphql.Int64
