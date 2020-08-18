@@ -3,6 +3,7 @@ package uploads
 import (
 	"cloud.google.com/go/storage"
 	"context"
+	"fmt"
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/dgryski/trifles/uuid"
 	"google.golang.org/api/option"
@@ -44,5 +45,7 @@ func (s *service) UploadImage(ctx context.Context, picture graphql.Upload, kind 
 		return "", err
 	}
 
-	return "uploaded", nil
+	const publicURL = "https://storage.googleapis.com/%s/%s"
+
+	return fmt.Sprintf(publicURL, bucket, filename), nil
 }
