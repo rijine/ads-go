@@ -224,7 +224,7 @@ input NewPost {
 
 input PostImage {
     title: String!
-    image: Upload!
+    image: String! # upload to url
     description: String!
 }
 
@@ -250,12 +250,19 @@ input NewMessage {
 }
 
 type Mutation {
-    addPost(post: NewPost): Post!
-    editPost(post: NewPost): Post!
-    forgotPassword(email: String): Boolean!
-    changePassword(password: ChangePassword): Boolean!
-    confirmEmail(key: String): AuthUser
+    addPost(post: NewPost!): Post
+    editPost(post: NewPost!): Post
+    forgotPassword(email: String!): Boolean
+    changePassword(password: ChangePassword!): Boolean
+    verifyEmail(key: String!): AuthUser
 
     # No auth
     register(user: NewUser): Boolean!
+    uploadImage(
+        picture: Upload!,
+        """ 'kind' is bucket its going to store, like post, user or message images """
+        kind: String
+    ): String
+
+    uploadImages(pictures: [Upload!]): String
 }
