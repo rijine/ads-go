@@ -5,8 +5,10 @@ go 1.14
 require (
 	cloud.google.com/go/storage v1.10.0
 	github.com/99designs/gqlgen v0.11.3
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
 	github.com/dgryski/trifles v0.0.0-20190318185328-a8d75aae118c
 	github.com/google/go-cmp v0.5.1 // indirect
+	github.com/pwaller/goupx v0.0.0-20160623083017-1d58e01d5ce2 // indirect
 	github.com/vektah/gqlparser/v2 v2.0.1
 	go.mongodb.org/mongo-driver v1.4.0
 	golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9

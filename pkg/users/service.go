@@ -35,6 +35,7 @@ func (s *service) Users() ([]*model.User, error) {
 	var ss = make([]*model.User, 0)
 	// var ss1 = make([]*User, 0)
 	err = cur.All(context.TODO(), &ss)
+
 	// fmt.Print(ss1)
 	/*for cur.Next(context.Background()) {
 		var s model.User
