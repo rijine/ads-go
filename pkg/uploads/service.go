@@ -17,8 +17,11 @@ type Service interface {
 
 type service struct{}
 
+const publicURL = "https://storage.googleapis.com/%s/%s"
+
 var (
 	storageClient *storage.Client
+	options       = option.WithCredentialsFile("configs/gcloud.keys.json")
 )
 
 func NewCounterService() Service {
@@ -29,7 +32,7 @@ func (s *service) UploadImage(ctx context.Context, picture graphql.Upload, kind 
 	bucket := "imerch-images"
 	//bucket := "posts"
 	var err error
-	storageClient, err = storage.NewClient(ctx, option.WithCredentialsFile("configs/gcloud.keys.json"))
+	storageClient, err = storage.NewClient(ctx, options)
 	if err != nil {
 		return "", err
 	}
@@ -44,8 +47,6 @@ func (s *service) UploadImage(ctx context.Context, picture graphql.Upload, kind 
 	if err := sw.Close(); err != nil {
 		return "", err
 	}
-
-	const publicURL = "https://storage.googleapis.com/%s/%s"
 
 	return fmt.Sprintf(publicURL, bucket, filename), nil
 }
