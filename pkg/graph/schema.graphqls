@@ -20,16 +20,16 @@ type Post {
     id: ID!
     userId: String!
     title: String!
-    url: String!
+    url: String! # generated, meta informations
     description: String!
     images: [Image]!
     price: Float
     tags: [String]!
-    platform: String!
+    platform: String! ## TODO: list
     language: String!
-    expectedViews: String!
     duration: Int!
-    sponsors: String
+    sponsors: String ## ??
+    expectedViews: String!
 
     status: String!
     isActive: Boolean!
@@ -50,10 +50,10 @@ type User {
     firstName: String!
     lastName: String!
     displayName: String!
-    url: String!
+    url: String! # generated
 
-    profileImage: Image!
-    profileImageUrl: String!
+    profileImage: Image! # ???
+    profileImageUrl: String! ## merge
     description: String!
     address: Address!
     phone: String!
@@ -76,6 +76,7 @@ type User {
     # customer resolvers
     posts: [Post]
     history: [History]
+    # message: [Enquiry]
 }
 
 type Portfolio {
@@ -122,6 +123,7 @@ type AuthUser {
     # roles: [String]
 }
 
+"""  External messages """
 type Enquiry {
     id: ID!
     postId: String!
@@ -134,7 +136,7 @@ type Enquiry {
     messagedAt: Int!
     isRead: Boolean!
 }
-
+""" Logged in user -> logged in user """
 type Chat {
     id: ID!
     userId: String!
@@ -144,12 +146,12 @@ type Chat {
 
 type Message {
     content: String
-    image: MessageImage
+    image: ChatImage
     isRead: Boolean!
     messagedAt: Int!
 }
 
-type MessageImage {
+type ChatImage {
     url: String
     thumbUrl: String
 }
@@ -167,13 +169,14 @@ type Query {
 
 }
 
+""" Registration input """
 input NewUser {
     firstName: String! @maxlength(max: 30) @demo
     lastName: String! @maxlength(max: 30)
     email: String!
     password: String!
 }
-
+""" Login input """
 input Credential {
     username: String!
     password: String!
@@ -186,12 +189,12 @@ input Paging {
 
 input PostFilter {
     paging: Paging
-    filter: PostFilter
+    filter: SearchFilter
     order: SortOrder
 }
 
 input SearchFilter {
-    keyword: String!
+    keyword: String! ## Rethink
     searchOn: String!
     tags: [String]!
     userId: String!
