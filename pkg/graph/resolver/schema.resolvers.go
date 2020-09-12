@@ -66,7 +66,8 @@ func (r *mutationResolver) UploadImages(ctx context.Context, pictures []*graphql
 }
 
 func (r *queryResolver) Login(ctx context.Context, credentials *model.Credential) (*model.AuthUser, error) {
-	panic(fmt.Errorf("not implemented"))
+	// panic(fmt.Errorf("not implemented"))
+	return usersService.Login(credentials)
 }
 
 func (r *queryResolver) User(ctx context.Context, id *string) (*model.User, error) {

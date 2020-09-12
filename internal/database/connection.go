@@ -22,6 +22,7 @@ type mongodb struct {
 
 var db mongodb
 
+// TODO: No effect
 func NewContext() context.Context {
 	ctx, cancel := context.WithTimeout(context.Background(), timeout*time.Second)
 	defer cancel()

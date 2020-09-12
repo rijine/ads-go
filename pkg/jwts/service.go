@@ -3,11 +3,12 @@ package jwts
 import (
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
+	"github.com/rijine/ads-api/internal/config"
 	"time"
 )
 
 type JwtService interface {
-	Generate(username string) (string, error)
+	Generate(username string) (string, int64, error)
 	Validate(token string) (string, error)
 }
 
@@ -19,22 +20,24 @@ type service struct {
 
 type Claims struct {
 	Username string `json:"username"`
+	// TODO: ADD more
 	jwt.StandardClaims
 }
 
-func NewJwtService(issuer, secret string, expiry time.Duration) JwtService {
+func NewJwtService(cfg config.JwtConfig) JwtService {
 	return &service{
-		expiry: expiry,
-		issuer: issuer,
-		secret: secret,
+		expiry: cfg.Expiry,
+		issuer: cfg.Issuer,
+		secret: cfg.Secret,
 	}
 }
 
-func (s *service) Generate(username string) (string, error) {
+func (s *service) Generate(username string) (string, int64, error) {
+	expiry := time.Now().Add(time.Hour * s.expiry).Unix()
 	claims := &Claims{
 		Username: username,
 		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(time.Hour * s.expiry).Unix(),
+			ExpiresAt: expiry,
 			IssuedAt:  time.Now().Unix(),
 			Issuer:    s.issuer,
 		},
@@ -44,10 +47,10 @@ func (s *service) Generate(username string) (string, error) {
 
 	signed, err := token.SignedString([]byte(s.secret))
 	if err != nil {
-		return "", err
+		return "", expiry, err
 	}
 
-	return signed, nil
+	return signed, expiry, nil
 
 }
 

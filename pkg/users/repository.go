@@ -1,8 +1,12 @@
 package users
 
 import (
+	"context"
 	"fmt"
+	"github.com/rijine/ads-api/internal/database"
 	"github.com/rijine/ads-api/pkg/graph/model"
+	"go.mongodb.org/mongo-driver/bson"
+	"time"
 )
 
 const (
@@ -10,7 +14,8 @@ const (
 )
 
 type Repository interface {
-	Login(credentials *model.Credential) model.AuthUser
+	Login(credential *model.Credential) (*model.AuthUser, error)
+	GetUser(id string) (*User, error)
 }
 
 type repository struct{}
@@ -20,6 +25,29 @@ func NewUserRepository() Repository {
 	return &repository{}
 }
 
-func (r *repository) Login(credentials *model.Credential) model.AuthUser {
-	return model.AuthUser{}
+// TODO: remove
+func (r *repository) Login(credential *model.Credential) (*model.AuthUser, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	res := database.Collection(COLLECTION).FindOne(ctx, bson.M{"email": credential.Username})
+	var user model.AuthUser
+	err := res.Decode(&user)
+
+	if err != nil {
+		return nil, err
+	}
+	return &user, err
+}
+
+func (r *repository) GetUser(id string) (*User, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	res := database.Collection("users").FindOne(ctx, bson.M{"email": id})
+	var user User
+	err := res.Decode(&user)
+
+	if err != nil {
+		return nil, err
+	}
+	return &user, err
 }

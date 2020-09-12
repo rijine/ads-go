@@ -2,18 +2,27 @@ package users
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"github.com/rijine/ads-api/internal/config"
 	"github.com/rijine/ads-api/internal/database"
 	"github.com/rijine/ads-api/pkg/graph/model"
+	"github.com/rijine/ads-api/pkg/jwts"
 	"go.mongodb.org/mongo-driver/bson"
 	"golang.org/x/crypto/bcrypt"
 	"log"
 	"time"
 )
 
+var (
+	jwtSrv   = jwts.NewJwtService(config.JwtConf)
+	userRepo = NewUserRepository()
+)
+
 type Service interface {
 	Register(userForm *model.NewUser) (bool, error)
 	Users() ([]*model.User, error)
+	Login(credential *model.Credential) (*model.AuthUser, error)
 }
 
 type service struct{}
@@ -50,6 +59,7 @@ func (s *service) Users() ([]*model.User, error) {
 	return ss, err
 }
 
+//TODO: Move to Auth?
 func (s *service) Register(userForm *model.NewUser) (bool, error) {
 
 	bs, _ := bcrypt.GenerateFromPassword([]byte(userForm.Password), bcrypt.DefaultCost)
@@ -62,7 +72,7 @@ func (s *service) Register(userForm *model.NewUser) (bool, error) {
 		Password:  string(bs),
 	}
 
-	// Repo layer
+	// TODO: Repo layer + validations
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 	res, err := database.Collection("users").InsertOne(ctx, usr)
@@ -73,4 +83,26 @@ func (s *service) Register(userForm *model.NewUser) (bool, error) {
 
 	fmt.Print(res)
 	return true, nil
+}
+
+func (s *service) Login(credential *model.Credential) (*model.AuthUser, error) {
+	user, err := userRepo.GetUser(credential.Username)
+	if err != nil {
+		return nil, errors.New("invalid username or password")
+	}
+
+	token, expiry, err := jwtSrv.Generate(credential.Username)
+
+	if err != nil {
+		return nil, errors.New("something went wrong please contact admin")
+	}
+
+	authUser := model.AuthUser{
+		Email:       user.Email,
+		DisplayName: user.DisplayName,
+		Token:       token,
+		Expiry:      int(expiry),
+	}
+
+	return &authUser, nil
 }
