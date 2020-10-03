@@ -175,6 +175,7 @@ input NewUser {
     lastName: String! @maxlength(max: 30)
     email: String!
     password: String!
+    confirmPassword: String!
 }
 """ Login input """
 input Credential {
