@@ -4,14 +4,15 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log"
+	"time"
+
 	"github.com/rijine/ads-api/internal/config"
 	"github.com/rijine/ads-api/internal/database"
 	"github.com/rijine/ads-api/pkg/graph/model"
 	"github.com/rijine/ads-api/pkg/jwts"
 	"go.mongodb.org/mongo-driver/bson"
 	"golang.org/x/crypto/bcrypt"
-	"log"
-	"time"
 )
 
 var (
@@ -87,6 +88,12 @@ func (s *service) Register(userForm *model.NewUser) (bool, error) {
 
 func (s *service) Login(credential *model.Credential) (*model.AuthUser, error) {
 	user, err := userRepo.GetUser(credential.Username)
+
+	if err != nil {
+		return nil, errors.New("invalid username or password")
+	}
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(credential.Password))
+
 	if err != nil {
 		return nil, errors.New("invalid username or password")
 	}
