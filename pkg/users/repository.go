@@ -9,6 +9,7 @@ import (
 	"time"
 )
 
+// TODO: move to constants
 const (
 	COLLECTION = "users"
 )
@@ -16,6 +17,7 @@ const (
 type Repository interface {
 	Login(credential *model.Credential) (*model.AuthUser, error)
 	GetUser(id string) (*User, error)
+	AddUser(user *User) (*User, error)
 }
 
 type repository struct{}
@@ -42,7 +44,7 @@ func (r *repository) Login(credential *model.Credential) (*model.AuthUser, error
 func (r *repository) GetUser(id string) (*User, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
-	res := database.Collection("users").FindOne(ctx, bson.M{"email": id})
+	res := database.Collection(COLLECTION).FindOne(ctx, bson.M{"email": id})
 	var user User
 	err := res.Decode(&user)
 
@@ -50,4 +52,16 @@ func (r *repository) GetUser(id string) (*User, error) {
 		return nil, err
 	}
 	return &user, err
+}
+
+func (r *repository) AddUser(user *User) (*User, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	_, err := database.Collection(COLLECTION).InsertOne(ctx, user)
+
+	if err != nil {
+		return nil, err
+	}
+	return nil, nil
 }

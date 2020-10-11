@@ -4,7 +4,11 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/dgryski/trifles/uuid"
+	"github.com/rijine/ads-api/pkg/counters"
+	"github.com/rijine/ads-api/pkg/notify"
 	"log"
+	"strings"
 	"time"
 
 	"github.com/rijine/ads-api/internal/config"
@@ -16,8 +20,10 @@ import (
 )
 
 var (
-	jwtSrv   = jwts.NewJwtService(config.JwtConf)
-	userRepo = NewUserRepository()
+	jwtSrv     = jwts.NewJwtService(config.JwtConf)
+	userRepo   = NewUserRepository()
+	counterSrv = counters.NewCounterService()
+	notifySrv  = notify.NewNotifyService()
 )
 
 type Service interface {
@@ -60,29 +66,49 @@ func (s *service) Users() ([]*model.User, error) {
 	return ss, err
 }
 
-//TODO: Move to Auth?
 func (s *service) Register(userForm *model.NewUser) (bool, error) {
-
-	bs, _ := bcrypt.GenerateFromPassword([]byte(userForm.Password), bcrypt.DefaultCost)
-
-	usr := User{
-		FirstName: userForm.FirstName,
-		LastName:  userForm.LastName,
-		Username:  userForm.Email,
-		Email:     userForm.Email,
-		Password:  string(bs),
+	user, err := userRepo.GetUser(userForm.Email)
+	if user != nil && user.Status != NotApproved {
+		return false, errors.New("user already exists")
 	}
 
-	// TODO: Repo layer + validations
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
-	res, err := database.Collection("users").InsertOne(ctx, usr)
+	count, err := counterSrv.Count("users")
 	if err != nil {
-		fmt.Print(err)
-		return false, err
+		return false, errors.New("something went wrong, try again")
 	}
 
-	fmt.Print(res)
+	url := strings.Join([]string{
+		strings.ToLower(userForm.FirstName),
+		strings.ToLower(userForm.LastName),
+		fmt.Sprint(count),
+	}, "-")
+	key := uuid.UUIDv4()
+	expiry := time.Now().Add(time.Hour * 24).Unix()
+	bs, _ := bcrypt.GenerateFromPassword([]byte(userForm.Password), bcrypt.DefaultCost)
+	newUser := User{
+		FirstName:          userForm.FirstName,
+		LastName:           userForm.LastName,
+		Username:           userForm.Email,
+		Email:              userForm.Email,
+		Password:           string(bs),
+		Status:             NotApproved,
+		Url:                url,
+		VerificationKey:    key,
+		VerificationExpiry: expiry,
+	}
+
+	_, err = userRepo.AddUser(&newUser)
+	if err != nil {
+		return false, errors.New("failed to register, please try again")
+	}
+
+	go func() {
+		err := notifySrv.VerifyEmail("e.rijin@gmail.com")
+		if err != nil {
+			log.Println("email sending failed, changed")
+		}
+	}()
+
 	return true, nil
 }
 
@@ -92,6 +118,11 @@ func (s *service) Login(credential *model.Credential) (*model.AuthUser, error) {
 	if err != nil {
 		return nil, errors.New("invalid username or password")
 	}
+
+	if user.Status != Approved {
+		return nil, errors.New("user is not verified or blocked")
+	}
+
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(credential.Password))
 
 	if err != nil {

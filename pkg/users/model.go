@@ -5,6 +5,14 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+type UserStatus string
+
+const (
+	NotApproved UserStatus = "NotApproved"
+	Approved               = "Approved"
+	Disabled               = "Disabled"
+)
+
 type User struct {
 	Id primitive.ObjectID `json:"id" bson:"_id,omitempty"`
 	// User full name
@@ -19,11 +27,12 @@ type User struct {
 	Address         `json:"address" bson:"address,omitempty"`
 	Phone           string `json:"phone" bson:"phone,omitempty"`
 
-	Email              string `json:"email" bson:"email,omitempty"`
-	Username           string `json:"username" bson:"username,omitempty"`
-	Password           string `json:"password" bson:"password,omitempty"`
-	VerificationKey    string `json:"verificationKey" bson:"verificationKey,omitempty"`
-	VerificationExpiry int64  `json:"verificationExpiry" bson:"verificationExpiry,omitempty"`
+	Email              string     `json:"email" bson:"email,omitempty"`
+	Username           string     `json:"username" bson:"username,omitempty"`
+	Password           string     `json:"password" bson:"password,omitempty"`
+	Status             UserStatus `json:"status" bson:"status,omitempty"`
+	VerificationKey    string     `json:"verificationKey" bson:"verificationKey,omitempty"`
+	VerificationExpiry int64      `json:"verificationExpiry" bson:"verificationExpiry,omitempty"`
 
 	RegisteredOn int64   `json:"registeredOn" bson:"registeredOn,omitempty"`
 	IsCompany    bool    `json:"isCompany" bson:"isCompany,omitempty"`
