@@ -1,7 +1,7 @@
 # Readme
 
 ## Graphql
-### Schema Changes
+### Schema Changes + branch update
 run ```go run cmd/gen/bson.go```
 
 ### File Uploads 
