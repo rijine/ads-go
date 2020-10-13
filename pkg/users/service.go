@@ -102,7 +102,7 @@ func (s *service) Register(userForm *model.NewUser) (bool, error) {
 		return false, errors.New("failed to register, please try again")
 	}
 
-	go func() {
+	defer func() {
 		err := notifySrv.VerifyEmail("e.rijin@gmail.com")
 		if err != nil {
 			log.Println("email sending failed, changed")
