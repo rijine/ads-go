@@ -7,9 +7,11 @@ require (
 	github.com/99designs/gqlgen v0.11.3
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/dgryski/trifles v0.0.0-20190318185328-a8d75aae118c
+	github.com/gofiber/adaptor/v2 v2.0.0
+	github.com/gofiber/fiber/v2 v2.0.6
+	github.com/gofiber/helmet/v2 v2.0.0
 	github.com/google/go-cmp v0.5.1 // indirect
 	github.com/jordan-wright/email v4.0.1-0.20200917010138-e1c00e156980+incompatible
-	github.com/pwaller/goupx v0.0.0-20160623083017-1d58e01d5ce2 // indirect
 	github.com/vektah/gqlparser/v2 v2.0.1
 	go.mongodb.org/mongo-driver v1.4.0
 	golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9
