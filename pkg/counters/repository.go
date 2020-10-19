@@ -2,9 +2,10 @@ package counters
 
 import (
 	"context"
+	"time"
+
 	"github.com/rijine/ads-api/internal/database"
 	"go.mongodb.org/mongo-driver/bson"
-	"time"
 )
 
 const (
@@ -28,10 +29,22 @@ func (r *repository) GetAndUpdate(countOf string) (int64, error) {
 	filter := bson.M{"countOf": countOf}
 	var result Counter
 	err := database.Collection(COLLECTION).FindOne(ctx, filter).Decode(&result)
+	if err.Error() == "mongo: no documents in result" {
+
+		insrt := Counter{
+			CountOf: "user",
+			Count:   1,
+		}
+
+		_, err = database.Collection(COLLECTION).InsertOne(ctx, insrt)
+
+	}
 	if err != nil {
+
 		return 0, err
 	}
 	update := bson.D{{"$set", bson.M{"count": result.Count + 1}}}
+
 	_, err = database.Collection(COLLECTION).UpdateOne(ctx, filter, update)
 
 	if err != nil {

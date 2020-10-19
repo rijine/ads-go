@@ -2,9 +2,10 @@ package database
 
 import (
 	"context"
+	"time"
+
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"time"
 )
 
 const (
@@ -34,7 +35,7 @@ func Collection(name string) *mongo.Collection {
 }
 
 func Connect() error {
-	dbOptions := options.Client().ApplyURI("mongodb://localhost:27017")
+	dbOptions := options.Client().ApplyURI("mongodb+srv://dbadmin:admin123@mymongocluster.1p40q.mongodb.net/v-ads?retryWrites=true&w=majority")
 	client, err := mongo.Connect(NewContext(), dbOptions)
 	if err != nil {
 		return err

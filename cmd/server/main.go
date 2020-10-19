@@ -1,6 +1,8 @@
 package main
 
 import (
+	"log"
+
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/gofiber/adaptor/v2"
@@ -13,7 +15,6 @@ import (
 	"github.com/rijine/ads-api/pkg/graph/directive"
 	"github.com/rijine/ads-api/pkg/graph/generated"
 	"github.com/rijine/ads-api/pkg/graph/resolver"
-	"log"
 )
 
 func main() {
@@ -24,7 +25,7 @@ func main() {
 
 	cfg := limiter.Config{
 		// Add more
-		Max: 10,
+		Max: 1000000,
 	}
 	app.Use(limiter.New(cfg))
 	if err := database.Connect(); err != nil {
