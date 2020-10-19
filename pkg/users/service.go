@@ -4,12 +4,13 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/dgryski/trifles/uuid"
-	"github.com/rijine/ads-api/pkg/counters"
-	"github.com/rijine/ads-api/pkg/notify"
 	"log"
 	"strings"
 	"time"
+
+	"github.com/dgryski/trifles/uuid"
+	"github.com/rijine/ads-api/pkg/counters"
+	"github.com/rijine/ads-api/pkg/notify"
 
 	"github.com/rijine/ads-api/internal/config"
 	"github.com/rijine/ads-api/internal/database"
@@ -68,7 +69,7 @@ func (s *service) Users() ([]*model.User, error) {
 
 func (s *service) Register(userForm *model.NewUser) (bool, error) {
 	user, err := userRepo.GetUser(userForm.Email)
-	if user != nil && user.Status != NotApproved {
+	if user != nil {
 		return false, errors.New("user already exists")
 	}
 
@@ -103,7 +104,7 @@ func (s *service) Register(userForm *model.NewUser) (bool, error) {
 	}
 
 	defer func() {
-		err := notifySrv.VerifyEmail("e.rijin@gmail.com")
+		err := notifySrv.VerifyEmail("alengcm@gmail.com")
 		if err != nil {
 			log.Println("email sending failed, changed")
 		}
