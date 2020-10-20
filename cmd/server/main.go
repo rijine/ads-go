@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"os"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
@@ -18,8 +19,18 @@ import (
 )
 
 func main() {
+
+	fo, err := os.OpenFile("logfile.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		panic(err)
+	}
 	app := fiber.New()
-	app.Use(logger.New())
+	app.Use(logger.New(logger.Config{
+		Format:     "${time}] ${status} - ${latency} ${method} ${path} ${bytesSent} ${query}\n",
+		TimeFormat: "2006-01-02T15:04:05-0700",
+		TimeZone:   "local",
+		Output:     fo,
+	}))
 	app.Use(compress.New())
 	app.Use(helmet.New())
 
