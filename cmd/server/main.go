@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 
@@ -16,6 +17,11 @@ import (
 	"github.com/rijine/ads-api/pkg/graph/directive"
 	"github.com/rijine/ads-api/pkg/graph/generated"
 	"github.com/rijine/ads-api/pkg/graph/resolver"
+	"github.com/rijine/ads-api/pkg/youtubeapi"
+)
+
+var (
+	youtubeSrv = youtubeapi.NewYoutubeApiService()
 )
 
 func main() {
@@ -24,6 +30,8 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	fmt.Println(youtubeSrv.GetSubscribers("alengcm"))
+
 	app := fiber.New()
 	app.Use(logger.New(logger.Config{
 		Format:     "${time}] ${status} - ${latency} ${method} ${path} ${bytesSent} ${query}\n",
@@ -56,7 +64,7 @@ func main() {
 	app.Get("/graphiql", adaptor.HTTPHandler(playground.Handler("Ads API", "/graphql")))
 	app.Post("/graphql", adaptor.HTTPHandler(srv))
 
-	if err := app.Listen(":8080"); err != nil {
-		log.Fatal("Failed to start server")
-	}
+	// if err := app.Listen(":8080"); err != nil {
+	// 	log.Fatal("Failed to start server")
+	// }
 }

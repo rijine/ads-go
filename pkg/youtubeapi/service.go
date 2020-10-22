@@ -32,7 +32,7 @@ func (s *service) GetSubscribers(userId string) (Items, error) {
 	// notice how I'm using os.Getenv() to pick up the environment
 	// variables that we defined earlier. No hard coded credentials here
 	q.Add("key", os.Getenv("YOUTUBE_KEY"))
-	q.Add("id", userId)
+	q.Add("forUsername", userId)
 	q.Add("part", "statistics")
 	req.URL.RawQuery = q.Encode()
 
